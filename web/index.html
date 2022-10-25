@@ -36,6 +36,31 @@
     // The value below is injected by flutter build, do not touch.
     var serviceWorkerVersion = null;
   </script>
+  <script src="bridge-bundle.js"></script>
+  <script>
+        var bridge = window.webBridgeInstance;
+        async function sendBotEvent(eventObject) {
+            return new Promise((resolve, reject) => {
+            bridge.sendBotEvent(eventObject)
+                .then((res) => {
+                    resolve(res)
+                })
+                .catchIt((err) => {
+                    reject(err)
+                })
+            });
+        }
+
+        bridge.sendClientEvent({
+            method: 'ready',
+            params: {}
+        })
+  </script>
+  <script>
+      window.flutterConfiguration = {
+        canvasKitBaseUrl: "/canvaskit/"
+      };
+    </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
 </head>
